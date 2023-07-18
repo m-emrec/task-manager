@@ -1,3 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 enum UserEnum {
   id,
   name,
@@ -30,7 +33,7 @@ class UserModel {
     required this.isOnline,
   });
 
-  factory UserModel.fromJson(Map data) {
+  factory UserModel.fromMap(Map data) {
     return UserModel(
       name: data[UserEnum.name.name],
       id: data[UserEnum.id.name],
@@ -41,4 +44,20 @@ class UserModel {
       isOnline: data[UserEnum.isOnline.name],
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      'email': email,
+      'password': password,
+      'isVerified': isVerified,
+      'isOnline': isOnline,
+    };
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory UserModel.fromJson(String source) =>
+      UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }
