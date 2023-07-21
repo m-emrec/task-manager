@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:todo/models/stage_model.dart';
 import 'package:todo/models/user_model.dart';
@@ -22,28 +23,28 @@ class Task {
 
   final DateTime startDate;
   final DateTime dueDate;
-  final DateTime lastEditedDate;
-  final DateTime finishedDate;
+  final DateTime? lastEditedDate;
+  final DateTime? finishedDate;
 
-  final UserModel lastEditedBy;
+  final UserModel? lastEditedBy;
 
   final String status;
   final String description;
 
-  final List<Stage> stages;
-  final List<UserModel> people;
+  final List<Stage>? stages;
+  final List<UserModel>? people;
 
   Task({
     required this.title,
     required this.startDate,
     required this.dueDate,
-    required this.lastEditedDate,
-    required this.finishedDate,
-    required this.lastEditedBy,
+    this.lastEditedDate,
+    this.finishedDate,
+    this.lastEditedBy,
     required this.status,
     required this.description,
-    required this.stages,
-    required this.people,
+    this.stages,
+    this.people,
   });
 
   factory Task.fromMap(Map data) {
@@ -61,18 +62,38 @@ class Task {
     );
   }
 
+  factory Task.dummy() {
+    final int dummTitleId = Random().nextInt(32);
+
+    final DateTime dummyStartDate = DateTime(2023, 7, 17);
+    final DateTime dummyDueDate = DateTime(2023, 8, 17);
+
+    return Task(
+      title: "title $dummTitleId",
+      startDate: dummyStartDate,
+      dueDate: dummyDueDate,
+      lastEditedDate: null,
+      finishedDate: null,
+      lastEditedBy: null,
+      status: "Not Started",
+      description: "description",
+      stages: null,
+      people: null,
+    );
+  }
+
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'title': title,
       'startDate': startDate.millisecondsSinceEpoch,
       'dueDate': dueDate.millisecondsSinceEpoch,
-      'lastEditedDate': lastEditedDate.millisecondsSinceEpoch,
-      'finishedDate': finishedDate.millisecondsSinceEpoch,
-      'lastEditedBy': lastEditedBy.toMap(),
+      'lastEditedDate': lastEditedDate?.millisecondsSinceEpoch ?? 0,
+      'finishedDate': finishedDate?.millisecondsSinceEpoch,
+      'lastEditedBy': lastEditedBy?.toMap(),
       'status': status,
       'description': description,
-      'stages': stages.map((x) => x.toMap()).toList(),
-      'people': people.map((x) => x.toMap()).toList(),
+      'stages': stages?.map((x) => x.toMap()).toList(),
+      'people': people?.map((x) => x.toMap()).toList(),
     };
   }
 

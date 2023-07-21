@@ -1,5 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+import 'dart:math';
+
+import 'package:todo/models/project_model.dart';
 
 enum UserEnum {
   id,
@@ -9,6 +12,7 @@ enum UserEnum {
   avatar,
   isVerified,
   isOnline,
+  projects,
 }
 
 class UserModel {
@@ -20,8 +24,10 @@ class UserModel {
   ///???
   final avatar;
 
-  final bool isVerified;
-  final bool isOnline;
+  final bool? isVerified;
+  final bool? isOnline;
+
+  final List<Project>? projects;
 
   UserModel({
     required this.name,
@@ -29,8 +35,9 @@ class UserModel {
     required this.email,
     required this.password,
     required this.avatar,
-    required this.isVerified,
-    required this.isOnline,
+    this.isVerified,
+    this.isOnline,
+    this.projects,
   });
 
   factory UserModel.fromMap(Map data) {
@@ -42,6 +49,7 @@ class UserModel {
       avatar: data[UserEnum.avatar.name],
       isVerified: data[UserEnum.isVerified.name],
       isOnline: data[UserEnum.isOnline.name],
+      projects: data[UserEnum.projects.name],
     );
   }
 
@@ -53,6 +61,7 @@ class UserModel {
       'password': password,
       'isVerified': isVerified,
       'isOnline': isOnline,
+      'projects': projects,
     };
   }
 
@@ -60,4 +69,16 @@ class UserModel {
 
   factory UserModel.fromJson(String source) =>
       UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  factory UserModel.dummy() {
+    final int dummyId = Random().nextInt(32);
+    return UserModel(
+        name: "user $dummyId",
+        id: dummyId.toString(),
+        email: "email-$dummyId@h.com",
+        password: "password",
+        avatar: "avatar",
+        isVerified: false,
+        isOnline: false);
+  }
 }

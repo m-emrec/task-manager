@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:todo/Pages/auth_page.dart';
+import 'package:todo/constants/routes.dart';
 import 'package:todo/theme/theme.dart';
-
-import 'Pages/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: AppTheme().theme,
-      home: const HomePage(),
+      routes: appRoutes,
     );
   }
 }

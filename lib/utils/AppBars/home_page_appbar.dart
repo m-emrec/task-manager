@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todo/extensions/image_extension.dart';
 import 'package:todo/utils/shared/circle_container.dart';
@@ -33,6 +34,7 @@ class HomePageAppBar extends StatelessWidget {
         actions: [
           /// Navigates to Notifiaction Page
           GestureDetector(
+            onTap: () => FirebaseAuth.instance.signOut(),
             child: CircleContainer(
               child: Image.asset(
                 "home-icon-notification-notification-box.png".toImg,
